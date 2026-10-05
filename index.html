@@ -6,86 +6,142 @@
 <title>Soloh Pay Package Calculator</title>
 <meta name="description" content="Soloh Travel Pay Package Calculator v1.0 – 18% load on W2, 18% desired GP">
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 :root{
-  --ink:#1b2430; --muted:#5b6675; --line:#c9d1db; --bg:#eef1f5; --card:#ffffff;
-  --navy:#333f4f; --blue:#b4c6e7; --green:#c6e0b4; --yellow:#ffff99; --lyellow:#ffffd6; --orange:#f4b183;
-  --good:#1e7b34; --goodbg:#d8f0dd; --bad:#b3261e; --badbg:#fbe0de;
+  --ink:#1a2233; --muted:#5d6b82; --line:#e3e8f0; --bg:#f2f5fb; --card:#ffffff;
+  --navy:#1f2a44; --indigo:#4f46e5; --violet:#7c3aed; --teal:#0d9488; --sky:#0284c7;
+  --blueA:#2563eb; --blueB:#38bdf8; --greenA:#059669; --greenB:#34d399; --purA:#7c3aed; --purB:#c084fc;
+  --yellow:#fff7b8; --lyellow:#fffbe3; --ybord:#f2d65c; --orange:#ffd3b0; --orangeB:#f59e0b;
+  --good:#047857; --goodbg:#d1fae5; --warn:#b45309; --warnbg:#fef3c7; --bad:#be123c; --badbg:#ffe4e6;
+  --shadow:0 6px 20px rgba(31,42,68,.08),0 1px 3px rgba(31,42,68,.06);
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.35 Calibri,"Segoe UI",Arial,sans-serif}
-header{background:var(--navy);color:#fff;padding:14px 16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
-header h1{margin:0;font-size:18px}
-header .sub{font-size:12px;opacity:.85}
+body{margin:0;background:radial-gradient(1200px 500px at 0% 0%,#e0e7ff 0,transparent 60%),radial-gradient(1000px 500px at 100% 0%,#ccfbf1 0,transparent 55%),var(--bg);color:var(--ink);font:14px/1.4 Inter,"Segoe UI",Calibri,Arial,sans-serif;min-height:100vh}
+header{background:linear-gradient(120deg,#1e1b4b 0%,#4338ca 45%,#0e7490 100%);color:#fff;padding:18px 22px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;box-shadow:0 6px 24px rgba(67,56,202,.35)}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,#fbbf24,#f97316);display:grid;place-items:center;font-weight:800;font-size:22px;color:#1e1b4b;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+header h1{margin:0;font-size:20px;font-weight:800;letter-spacing:.2px}
+header .sub{font-size:12px;opacity:.95;margin-top:4px;display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);padding:2px 9px;border-radius:999px;font-weight:600}
+.chip.y{background:#fff7b8;color:#5b4a00;border-color:#fff7b8}
 .btns{display:flex;gap:8px;flex-wrap:wrap}
-button{font:inherit;font-weight:700;border:1px solid #20293a;background:#e7ebf1;color:#20293a;padding:7px 14px;border-radius:4px;cursor:pointer}
-button.primary{background:#ffd34d;border-color:#b98d00}
-button:hover{filter:brightness(.95)}
-main{display:grid;grid-template-columns:1.25fr 1fr 0.9fr;gap:14px;padding:14px 16px;max-width:1500px;margin:0 auto}
-.panel{background:var(--card);border:2px solid #000;padding:10px}
-.panel>h2{margin:0 0 8px;text-align:center;font-size:18px}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.sec{margin-bottom:10px}
-.sec h3{margin:0;font-size:13.5px;padding:4px 6px;border:1px solid var(--line)}
-.c h3{background:var(--blue)} .k h3{background:var(--green)} .n h3{background:var(--navy);color:#fff}
-.row{display:grid;grid-template-columns:1.25fr 1fr;border:1px solid var(--line);border-top:0;min-height:26px}
-.row>label,.row>span.l{padding:4px 6px;font-size:12.5px;display:flex;align-items:center}
-.row>.v{border-left:1px solid var(--line);display:flex;align-items:center}
-input,select,textarea{font:inherit;width:100%;border:0;padding:4px 6px;background:var(--yellow);color:#0000c8;min-height:25px}
-input.opt,select.opt,textarea.opt{background:var(--lyellow)}
-select.orange{background:var(--orange);color:#000;font-weight:700}
+button{font:inherit;font-weight:700;border:0;padding:9px 16px;border-radius:10px;cursor:pointer;transition:transform .12s,box-shadow .12s,filter .12s;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+button:hover{transform:translateY(-1px);filter:brightness(1.05)}
+button#reset{background:#fff;color:#be123c}
+button#copy{background:linear-gradient(135deg,#22d3ee,#0ea5e9);color:#fff}
+button.primary{background:linear-gradient(135deg,#fbbf24,#f97316);color:#1e1b4b}
+main{display:grid;grid-template-columns:1.25fr 1fr 0.9fr;gap:18px;padding:18px 22px;max-width:1540px;margin:0 auto}
+.panel{background:var(--card);border-radius:16px;padding:14px;box-shadow:var(--shadow);border:1px solid #e6eaf2;border-top:5px solid var(--indigo)}
+.panel.fs{border-top-color:var(--teal)} .panel.conf{border-top-color:var(--orangeB)}
+.panel>h2{margin:0 0 12px;font-size:17px;font-weight:800;display:flex;align-items:center;gap:8px}
+.panel>h2 .ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;background:#eef2ff}
+.panel.fs>h2 .ic{background:#ccfbf1} .panel.conf>h2 .ic{background:#ffedd5}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sec{margin-bottom:12px;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#fff}
+.sec h3{margin:0;font-size:13px;font-weight:700;padding:7px 10px;color:#fff;letter-spacing:.2px}
+.c h3{background:linear-gradient(90deg,var(--blueA),var(--blueB))}
+.k h3{background:linear-gradient(90deg,var(--greenA),var(--greenB))}
+.n h3{background:linear-gradient(90deg,var(--purA),var(--purB))}
+.t h3{background:linear-gradient(90deg,#0f766e,#14b8a6)}
+.c{background:#f5f9ff} .k{background:#f3fcf7} .n{background:#faf5ff}
+.row{display:grid;grid-template-columns:1.25fr 1fr;border-top:1px solid var(--line);min-height:30px}
+.row>label,.row>span.l{padding:5px 10px;font-size:12.5px;display:flex;align-items:center;color:#334155;font-weight:500}
+.row>.v{display:flex;align-items:center;padding:3px 6px 3px 0}
+input,select,textarea{font:inherit;width:100%;border:1.5px solid var(--ybord);border-radius:8px;padding:4px 8px;background:var(--yellow);color:#1d3fbf;font-weight:600;min-height:26px;outline:none;transition:box-shadow .12s,border-color .12s}
+input:focus,select:focus,textarea:focus{border-color:var(--indigo);box-shadow:0 0 0 3px rgba(79,70,229,.2);background:#fff}
+input.opt,select.opt,textarea.opt{background:var(--lyellow);border-color:#f5e7a6}
+select.orange{background:var(--orange);border-color:#fb923c;color:#7c2d12;font-weight:700}
 input[type=number]{text-align:right}
 textarea{resize:vertical;min-height:52px}
-.calc{padding:4px 6px;width:100%;text-align:right;background:#f6f7f9}
-.fin{width:100%;border-collapse:collapse;font-size:12.5px}
-.fin td,.fin th{border:1px solid var(--line);padding:4px 6px}
-.fin th{background:var(--navy);color:#fff}
-.fin td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-.fin tr.band td{background:var(--navy);color:#fff;font-weight:700}
-.fin td.b{font-weight:700}
-.kpi{display:grid;grid-template-columns:1fr auto;border:1px solid var(--line)}
-.kpi div{padding:5px 8px;border-bottom:1px solid var(--line);font-weight:700}
+::placeholder{color:#a08a3c;font-weight:500}
+.calc{padding:4px 8px;width:100%;text-align:right;background:#eef2ff;border-radius:8px;color:#3730a3;font-weight:700}
+/* KPI tiles */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.tile{border-radius:14px;padding:11px 12px;color:#fff;position:relative;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.tile .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.6px;opacity:.92;font-weight:700}
+.tile .val{font-size:22px;font-weight:800;margin-top:3px;font-variant-numeric:tabular-nums}
+.tile .val .neg{color:#fff}
+.tile::after{content:"";position:absolute;right:-18px;top:-18px;width:70px;height:70px;border-radius:50%;background:rgba(255,255,255,.14)}
+.t1{background:linear-gradient(135deg,#4f46e5,#7c3aed)} .t2{background:linear-gradient(135deg,#0ea5e9,#0d9488)}
+.state-good{background:linear-gradient(135deg,#059669,#10b981)} .state-warn{background:linear-gradient(135deg,#d97706,#f59e0b)} .state-bad{background:linear-gradient(135deg,#be123c,#f43f5e)}
+.kpi{display:grid;grid-template-columns:1fr auto;border-radius:12px;overflow:hidden;border:1px solid var(--line);margin-bottom:6px}
+.kpi div{padding:7px 10px;border-bottom:1px solid var(--line);font-weight:700;background:#fff}
+.kpi div:nth-last-child(-n+2){border-bottom:0}
 .kpi div:nth-child(even){text-align:right;font-variant-numeric:tabular-nums}
-.pill{display:inline-block;padding:2px 10px;border-radius:10px;font-weight:700}
+.meter{margin:4px 0 12px}
+.meter .bar{height:12px;border-radius:999px;background:#e5e7eb;overflow:hidden;position:relative}
+.meter .tick{position:absolute;top:-2px;bottom:-2px;width:3px;background:#1e1b4b;border-radius:2px}
+.meter .fill{height:100%;border-radius:999px;transition:width .3s}
+.meter .mk{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px;font-weight:600}
+.pill{display:inline-block;padding:3px 12px;border-radius:999px;font-weight:800;letter-spacing:.4px}
 .yes{background:var(--goodbg);color:var(--good)} .no{background:var(--badbg);color:var(--bad)}
 .neg{color:var(--bad)}
-.conf .line{border:1px solid var(--line);border-top:0;padding:4px 6px;font-size:12.5px;display:flex;justify-content:space-between;gap:8px}
-.conf h3{background:#fff;border:1px solid var(--line);margin:0;padding:4px 6px;font-size:13.5px}
+.fin{width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.fin td,.fin th{padding:6px 9px;border-bottom:1px solid var(--line)}
+.fin tr:last-child td{border-bottom:0}
+.fin th{background:linear-gradient(90deg,#0f766e,#14b8a6);color:#fff;font-weight:700}
+.fin td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fin tr.rev td{background:#ecfdf5} .fin tr.rev td:first-child{color:#047857;font-weight:700}
+.fin tr.cost td{background:#fff7ed} .fin tr.cost td:first-child{color:#c2410c;font-weight:600}
+.fin tr.ded td{background:#fdf2f8} .fin tr.ded td:first-child{color:#be185d;font-weight:600}
+.fin tr.band td{background:linear-gradient(90deg,#312e81,#4338ca);color:#fff;font-weight:800}
+.fin tr.band.net td{background:linear-gradient(90deg,#065f46,#059669)}
+.fin tr.band.net.bad td{background:linear-gradient(90deg,#9f1239,#e11d48)}
+.fin tr.band td.neg{color:#ffe4e6}
+.fin td.b{font-weight:700}
+#blendBody tr:last-child td{background:#eef2ff;color:#3730a3}
+#guideBody tr td:first-child{color:#334155}
+#guideBody tr:nth-child(odd) td{background:#f8fafc}
+.sec.hd{border:0;background:none;margin:12px 0 6px}
+.sec.hd h3{border-radius:10px}
+.conf h3{background:linear-gradient(90deg,#fff7ed,#ffedd5);border-left:4px solid var(--orangeB);margin:0;padding:6px 10px;font-size:13px;border-radius:8px 8px 0 0;color:#9a3412}
+.conf .line{border:1px solid var(--line);border-top:0;padding:6px 10px;font-size:12.5px;display:flex;justify-content:space-between;gap:8px;background:#fff}
+.conf .line b{color:#1e1b4b}
+.conf .line.total{background:linear-gradient(90deg,#fef3c7,#fde68a);font-size:13.5px}
+.conf .line.total b{color:#78350f}
+.status{display:flex;justify-content:center;margin:4px 0 10px}
+.status span{background:#fef3c7;color:#92400e;border:1px solid #fcd34d;border-radius:999px;padding:3px 12px;font-size:12px;font-weight:700}
 .err{color:var(--bad);font-weight:700}
-.note{font-size:11.5px;color:var(--muted);margin-top:8px}
-.sub-title{text-align:center;margin:8px 0 2px;font-weight:700;font-size:16px}
-footer{max-width:1500px;margin:0 auto;padding:0 16px 20px;font-size:11.5px;color:var(--muted)}
+.note{font-size:11.5px;color:var(--muted);margin-top:10px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:10px;padding:8px 10px}
+.sub-title{text-align:center;margin:12px 0 4px;font-weight:800;font-size:15px;color:#9a3412}
+footer{max-width:1540px;margin:0 auto;padding:0 22px 24px;font-size:11.5px;color:var(--muted);text-align:center}
 @media (max-width:1150px){main{grid-template-columns:1fr 1fr}.panel.inputs{grid-column:1/-1}}
-@media (max-width:720px){main{grid-template-columns:1fr;padding:10px}.two{grid-template-columns:1fr}.row{grid-template-columns:1.2fr 1fr}}
+@media (max-width:720px){main{grid-template-columns:1fr;padding:12px}.two{grid-template-columns:1fr}.row{grid-template-columns:1.2fr 1fr}header{padding:14px}header h1{font-size:17px}.tile .val{font-size:19px}}
 @media print{
-  @page{size:landscape;margin:8mm}
-  body{background:#fff;font-size:10.5px}
+  @page{size:landscape;margin:7mm}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{background:#fff;font-size:9.5px}
   header .btns,footer{display:none}
-  header{background:#fff;color:#000;padding:4px 0;border-bottom:2px solid #000}
+  header{padding:6px 10px;box-shadow:none}
+  .logo{width:30px;height:30px;font-size:15px}
   main{grid-template-columns:1.25fr 1fr .9fr;gap:8px;padding:6px 0}
-  .panel{padding:6px}
-  input,select,textarea{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .sec h3,.fin th,.fin tr.band td,.pill{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .panel{padding:6px;box-shadow:none}
+  .row{min-height:20px} input,select,textarea{min-height:18px;padding:1px 5px}
+  .tile .val{font-size:15px} .sec{margin-bottom:6px}
 }
 </style>
 </head>
 <body>
 <header>
-  <div>
-    <h1>Soloh Travel Pay Package Calculator v1.0</h1>
-    <div class="sub">18% Load on W2 · No Onboarding Cost · 18% Desired GP · Enter details in YELLOW cells</div>
+  <div class="brand">
+    <div class="logo">S</div>
+    <div>
+      <h1>Soloh Travel Pay Package Calculator v1.0</h1>
+      <div class="sub"><span class="chip">18% Load on W2</span><span class="chip">No Onboarding Cost</span><span class="chip">18% Desired GP</span><span class="chip y">✎ Enter details in YELLOW cells</span></div>
+    </div>
   </div>
   <div class="btns">
-    <button id="reset" type="button">Clear / Reset</button>
+    <button id="reset" type="button">↺ Clear / Reset</button>
     <button id="copy" type="button">Copy Offer Summary</button>
-    <button id="print" class="primary" type="button">Print / Save PDF</button>
+    <button id="print" class="primary" type="button">🖨 Print / Save PDF</button>
   </div>
 </header>
 
 <main>
 <!-- ================= INPUTS ================= -->
 <section class="panel inputs">
-  <h2>Enter the below information</h2>
+  <h2><span class="ic">📝</span>Enter the below information</h2>
   <div class="two">
     <div>
       <div class="sec c"><h3>Client Details</h3>
@@ -150,31 +206,36 @@ footer{max-width:1500px;margin:0 auto;padding:0 16px 20px;font-size:11.5px;color
 </section>
 
 <!-- ================= FINANCIAL SUMMARY ================= -->
-<section class="panel">
-  <h2>Financial Summary</h2>
-  <div class="sec n"><h3>Financial Performance</h3></div>
+<section class="panel fs">
+  <h2><span class="ic">📊</span>Financial Summary</h2>
+  <div class="tiles">
+    <div class="tile t1"><div class="lbl">Project Net Margin</div><div class="val" id="kNet"></div></div>
+    <div class="tile" id="kPctTile"><div class="lbl">Net Margin %</div><div class="val" id="kPctBig"></div></div>
+  </div>
+  <div class="meter"><div class="bar"><div class="fill" id="kFill"></div><div class="tick" id="kTick"></div></div>
+    <div class="mk"><span>0%</span><span id="kTgt">Target 18%</span><span id="kMax">30%</span></div></div>
   <div class="kpi">
     <div>Hourly Net Margin</div><div id="kHourly"></div>
     <div>Net Margin Percentage</div><div id="kPct"></div>
     <div>Meets Desired GP?</div><div id="kMeets"></div>
   </div>
-  <table class="fin" style="margin-top:10px">
+  <table class="fin">
     <thead><tr><th style="text-align:left"></th><th>Weekly</th><th>Project</th></tr></thead>
     <tbody id="finBody"></tbody>
   </table>
-  <div class="sec n" style="margin-top:10px"><h3>Blended Hourly Pay Package (Taxable + Nontaxable)</h3></div>
+  <div class="sec t hd"><h3>💵 Blended Hourly Pay Package (Taxable + Nontaxable)</h3></div>
   <table class="fin"><tbody id="blendBody"></tbody></table>
-  <div class="sec n" style="margin-top:10px"><h3>Offer Guidance – to hit Desired GP</h3></div>
+  <div class="sec t hd"><h3>🎯 Offer Guidance – to hit Desired GP</h3></div>
   <table class="fin"><tbody id="guideBody"></tbody></table>
 </section>
 
 <!-- ================= CONFIRMATION ================= -->
 <section class="panel conf">
-  <h2>Pay Package Confirmation</h2>
+  <h2><span class="ic">✅</span>Pay Package Confirmation</h2>
   <h3>Client and Job Details</h3>
   <div class="line" id="cClient"></div><div class="line" id="cJob"></div><div class="line" id="cJobDiva"></div><div class="line" id="cClientJob"></div>
   <div class="sub-title">Submission Details</div>
-  <div style="text-align:center;font-size:12px;margin-bottom:8px">Pending client acceptance</div>
+  <div class="status"><span>⏳ Pending client acceptance</span></div>
   <h3>Candidate Details</h3>
   <div class="line" id="cCand"></div><div class="line" id="cEmail"></div>
   <h3 style="margin-top:8px">Client Contract Details</h3>
@@ -187,7 +248,7 @@ footer{max-width:1500px;margin:0 auto;padding:0 16px 20px;font-size:11.5px;color
   <h3 style="margin-top:8px">Weekly Pay Package (Taxable + Nontaxable)</h3>
   <div class="line"><span>&gt; W2 Wage (RT+OT based on expected hrs)</span><b id="cW2"></b></div>
   <div class="line"><span>&gt; Nontaxable Weekly PerDiem</span><b id="cPD"></b></div>
-  <div class="line"><span><b>Total Weekly Gross Pay Package</b></span><b id="cGross"></b></div>
+  <div class="line total"><span><b>Total Weekly Gross Pay Package</b></span><b id="cGross"></b></div>
   <h3 style="margin-top:8px">Additional Details (If any)</h3>
   <div class="line" id="cNotes" style="min-height:40px;white-space:pre-wrap"></div>
   <p class="note">Net Margin % = Net Margin ÷ Revenue. Load applies to W2 pay only (RT + OT + W2 bonuses), not per diem. Non-billable orientation hours are paid to the nurse but not billed. Nothing you type here is saved or sent anywhere – all math runs in your browser.</p>
@@ -243,16 +304,23 @@ footer{max-width:1500px;margin:0 auto;padding:0 16px 20px;font-size:11.5px;color
     $('kPct').innerHTML = `<span class="${nmPct<0?'neg':''}">${pct(nmPct)}</span>`;
     $('kMeets').innerHTML = nmPct >= gp ? '<span class="pill yes">YES</span>' : '<span class="pill no">NO</span>';
 
-    const r = (l, w, p, cls='') => `<tr class="${cls}"><td class="${cls?'':'b'}">${l}</td><td class="n ${w<0?'neg':''}">${w===null?'':usd(w,0)}</td><td class="n ${p<0?'neg':''}">${usd(p,0)}</td></tr>`;
+    const r = (l, w, p, cls='') => `<tr class="${cls}"><td class="${/band/.test(cls)?'':'b'}">${l}</td><td class="n ${w<0?'neg':''}">${w===null?'':usd(w,0)}</td><td class="n ${p<0?'neg':''}">${usd(p,0)}</td></tr>`;
     const wk = x => x/weeks;
     $('finBody').innerHTML =
-      r('+ Revenue (RT)', W.revRT, P.revRT) + r('+ Revenue (OT)', W.revOT, P.revOT) +
-      r('− W2 Hourly Comp (RT)', W.w2RT, P.w2RT) + r('− W2 Hourly Comp (OT)', W.w2OT, P.w2OT) +
-      r('− W2 Bonus Comp', W.bonus, P.bonus) + r('− Per Diem: Non W2 Comp', W.pd, P.pd) +
+      r('+ Revenue (RT)', W.revRT, P.revRT,'rev') + r('+ Revenue (OT)', W.revOT, P.revOT,'rev') +
+      r('− W2 Hourly Comp (RT)', W.w2RT, P.w2RT,'cost') + r('− W2 Hourly Comp (OT)', W.w2OT, P.w2OT,'cost') +
+      r('− W2 Bonus Comp', W.bonus, P.bonus,'cost') + r('− Per Diem: Non W2 Comp', W.pd, P.pd,'cost') +
       r('= Gross Margin', wk(gm), gm, 'band') +
-      r('− MSP/VMS Fee', wk(mspP), mspP) + r(`− Payroll Load / Overhead (${(load*100).toFixed(0)}% on W2)`, wk(loadP), loadP) +
-      r('− Incremental Recruiting + Onboarding', wk(incr), incr) + r('− Orientation (non-billable hrs)', wk(orient), orient) +
-      r('= Net Margin', wk(nm), nm, 'band');
+      r('− MSP/VMS Fee', wk(mspP), mspP,'ded') + r(`− Payroll Load / Overhead (${(load*100).toFixed(0)}% on W2)`, wk(loadP), loadP,'ded') +
+      r('− Incremental Recruiting + Onboarding', wk(incr), incr,'ded') + r('− Orientation (non-billable hrs)', wk(orient), orient,'ded') +
+      r('= Net Margin', wk(nm), nm, nm<0?'band net bad':'band net');
+    const st = nmPct >= gp ? 'good' : (nmPct >= 0 ? 'warn' : 'bad');
+    $('kNet').textContent = usd(nm,0); $('kPctBig').textContent = pct(nmPct);
+    $('kPctTile').className = 'tile state-' + st;
+    const scale = Math.max(gp*1.6, 0.3), fillC = {good:'linear-gradient(90deg,#10b981,#059669)',warn:'linear-gradient(90deg,#fbbf24,#f59e0b)',bad:'linear-gradient(90deg,#fb7185,#e11d48)'}[st];
+    $('kFill').style.width = Math.max(0,Math.min(1,nmPct/scale))*100 + '%'; $('kFill').style.background = fillC;
+    $('kTick').style.left = Math.min(100,gp/scale*100) + '%';
+    $('kTgt').textContent = 'Target ' + (gp*100).toFixed(0) + '%'; $('kMax').textContent = (scale*100).toFixed(0) + '%';
     const sh = weeks*hrs || 1;
     const b2 = (l,v,bold) => `<tr><td class="${bold?'b':''}">${l}</td><td class="n ${bold?'b':''}">${usd(v)}</td></tr>`;
     $('blendBody').innerHTML = b2('&gt; W2 Wage (RT+OT) / Scheduled hrs',(P.w2RT+P.w2OT)/sh) + b2('&gt; W2 Bonus / Scheduled Project hrs',P.bonus/sh) +
