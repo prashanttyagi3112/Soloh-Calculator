@@ -13,7 +13,12 @@ Excel calculator for Soloh Partners recruiters to check margin on travel nurse p
 
 All settings sit in the **Admin Use Only** box and can be changed.
 
-## How to use
+## Use it online
+**Web calculator:** `https://prashanttyagi3112.github.io/Soloh-Calculator/` (works on phone and laptop – no Excel or macros needed; includes Clear/Reset, Copy Offer Summary and Print/Save PDF).
+
+Nothing typed into the web calculator is saved or sent anywhere – all math runs in the browser.
+
+## How to use (Excel version)
 1. Download `Soloh_Travel_Pay_Package_Calculator_v1.0_18Load-18GP.xlsx` and open it in Excel (no macros needed).
 2. Fill the **yellow cells**: client, MSP %, bill rate, W2 rate, OT rate, weekly per diem, hours/week, weeks, orientation hours, bonuses.
 3. Read **Net Margin %** and the green/red check against 18%.
