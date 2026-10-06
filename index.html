@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Soloh Pay Package Calculator</title>
+<meta name="description" content="Soloh Travel Pay Package Calculator v1.1 – 18% load on W2, 18% desired GP">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+:root{
+  --ink:#1a2233; --muted:#5d6b82; --line:#e3e8f0; --bg:#f2f5fb; --card:#ffffff;
+  --navy:#1f2a44; --indigo:#4f46e5; --violet:#7c3aed; --teal:#0d9488; --sky:#0284c7;
+  --blueA:#2563eb; --blueB:#38bdf8; --greenA:#059669; --greenB:#34d399; --purA:#7c3aed; --purB:#c084fc;
+  --yellow:#fff7b8; --lyellow:#fffbe3; --ybord:#f2d65c; --orange:#ffd3b0; --orangeB:#f59e0b;
+  --good:#047857; --goodbg:#d1fae5; --warn:#b45309; --warnbg:#fef3c7; --bad:#be123c; --badbg:#ffe4e6;
+  --shadow:0 6px 20px rgba(31,42,68,.08),0 1px 3px rgba(31,42,68,.06);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:radial-gradient(1200px 500px at 0% 0%,#e0e7ff 0,transparent 60%),radial-gradient(1000px 500px at 100% 0%,#ccfbf1 0,transparent 55%),var(--bg);color:var(--ink);font:14px/1.4 Inter,"Segoe UI",Calibri,Arial,sans-serif;min-height:100vh}
+header{background:linear-gradient(120deg,#1e1b4b 0%,#4338ca 45%,#0e7490 100%);color:#fff;padding:18px 22px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;box-shadow:0 6px 24px rgba(67,56,202,.35)}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,#fbbf24,#f97316);display:grid;place-items:center;font-weight:800;font-size:22px;color:#1e1b4b;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+header h1{margin:0;font-size:20px;font-weight:800;letter-spacing:.2px}
+header .sub{font-size:12px;opacity:.95;margin-top:4px;display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);padding:2px 9px;border-radius:999px;font-weight:600}
+.chip.y{background:#fff7b8;color:#5b4a00;border-color:#fff7b8}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+button{font:inherit;font-weight:700;border:0;padding:9px 16px;border-radius:10px;cursor:pointer;transition:transform .12s,box-shadow .12s,filter .12s;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+button:hover{transform:translateY(-1px);filter:brightness(1.05)}
+button#reset{background:#fff;color:#be123c}
+button#copy{background:linear-gradient(135deg,#22d3ee,#0ea5e9);color:#fff}
+button.primary{background:linear-gradient(135deg,#fbbf24,#f97316);color:#1e1b4b}
+main{display:grid;grid-template-columns:1.25fr 1fr 0.9fr;gap:18px;padding:18px 22px;max-width:1540px;margin:0 auto}
+.panel{background:var(--card);border-radius:16px;padding:14px;box-shadow:var(--shadow);border:1px solid #e6eaf2;border-top:5px solid var(--indigo)}
+.panel.fs{border-top-color:var(--teal)} .panel.conf{border-top-color:var(--orangeB)}
+.panel>h2{margin:0 0 12px;font-size:17px;font-weight:800;display:flex;align-items:center;gap:8px}
+.panel>h2 .ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;background:#eef2ff}
+.panel.fs>h2 .ic{background:#ccfbf1} .panel.conf>h2 .ic{background:#ffedd5}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sec{margin-bottom:12px;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#fff}
+.sec h3{margin:0;font-size:13px;font-weight:700;padding:7px 10px;color:#fff;letter-spacing:.2px}
+.c h3{background:linear-gradient(90deg,var(--blueA),var(--blueB))}
+.k h3{background:linear-gradient(90deg,var(--greenA),var(--greenB))}
+.n h3{background:linear-gradient(90deg,var(--purA),var(--purB))}
+.t h3{background:linear-gradient(90deg,#0f766e,#14b8a6)}
+.c{background:#f5f9ff} .k{background:#f3fcf7} .n{background:#faf5ff}
+.row{display:grid;grid-template-columns:1.25fr 1fr;border-top:1px solid var(--line);min-height:30px}
+.row>label,.row>span.l{padding:5px 10px;font-size:12.5px;display:flex;align-items:center;color:#334155;font-weight:500}
+.row>.v{display:flex;align-items:center;padding:3px 6px 3px 0}
+input,select,textarea{font:inherit;width:100%;border:1.5px solid var(--ybord);border-radius:8px;padding:4px 8px;background:var(--yellow);color:#1d3fbf;font-weight:600;min-height:26px;outline:none;transition:box-shadow .12s,border-color .12s}
+input:focus,select:focus,textarea:focus{border-color:var(--indigo);box-shadow:0 0 0 3px rgba(79,70,229,.2);background:#fff}
+input.opt,select.opt,textarea.opt{background:var(--lyellow);border-color:#f5e7a6}
+select.orange{background:var(--orange);border-color:#fb923c;color:#7c2d12;font-weight:700}
+input[type=number]{text-align:right}
+textarea{resize:vertical;min-height:52px}
+::placeholder{color:#a08a3c;font-weight:500}
+.calc{padding:4px 8px;width:100%;text-align:right;background:#eef2ff;border-radius:8px;color:#3730a3;font-weight:700}
+/* KPI tiles */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.tile{border-radius:14px;padding:11px 12px;color:#fff;position:relative;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.tile .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.6px;opacity:.92;font-weight:700}
+.tile .val{font-size:22px;font-weight:800;margin-top:3px;font-variant-numeric:tabular-nums}
+.tile .val .neg{color:#fff}
+.tile::after{content:"";position:absolute;right:-18px;top:-18px;width:70px;height:70px;border-radius:50%;background:rgba(255,255,255,.14)}
+.t1{background:linear-gradient(135deg,#4f46e5,#7c3aed)} .t2{background:linear-gradient(135deg,#0ea5e9,#0d9488)}
+.state-good{background:linear-gradient(135deg,#059669,#10b981)} .state-warn{background:linear-gradient(135deg,#d97706,#f59e0b)} .state-bad{background:linear-gradient(135deg,#be123c,#f43f5e)}
+.kpi{display:grid;grid-template-columns:1fr auto;border-radius:12px;overflow:hidden;border:1px solid var(--line);margin-bottom:6px}
+.kpi div{padding:7px 10px;border-bottom:1px solid var(--line);font-weight:700;background:#fff}
+.kpi div:nth-last-child(-n+2){border-bottom:0}
+.kpi div:nth-child(even){text-align:right;font-variant-numeric:tabular-nums}
+.meter{margin:4px 0 12px}
+.meter .bar{height:12px;border-radius:999px;background:#e5e7eb;overflow:hidden;position:relative}
+.meter .tick{position:absolute;top:-2px;bottom:-2px;width:3px;background:#1e1b4b;border-radius:2px}
+.meter .fill{height:100%;border-radius:999px;transition:width .3s}
+.meter .mk{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px;font-weight:600}
+.pill{display:inline-block;padding:3px 12px;border-radius:999px;font-weight:800;letter-spacing:.4px}
+.yes{background:var(--goodbg);color:var(--good)} .no{background:var(--badbg);color:var(--bad)}
+.neg{color:var(--bad)}
+.fin{width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.fin td,.fin th{padding:6px 9px;border-bottom:1px solid var(--line)}
+.fin tr:last-child td{border-bottom:0}
+.fin th{background:linear-gradient(90deg,#0f766e,#14b8a6);color:#fff;font-weight:700}
+.fin td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fin tr.rev td{background:#ecfdf5} .fin tr.rev td:first-child{color:#047857;font-weight:700}
+.fin tr.cost td{background:#fff7ed} .fin tr.cost td:first-child{color:#c2410c;font-weight:600}
+.fin tr.ded td{background:#fdf2f8} .fin tr.ded td:first-child{color:#be185d;font-weight:600}
+.fin tr.band td{background:linear-gradient(90deg,#312e81,#4338ca);color:#fff;font-weight:800}
+.fin tr.band.net td{background:linear-gradient(90deg,#065f46,#059669)}
+.fin tr.band.net.bad td{background:linear-gradient(90deg,#9f1239,#e11d48)}
+.fin tr.band td.neg{color:#ffe4e6}
+.fin td.b{font-weight:700}
+#guideBody tr td:first-child{color:#334155}
+#guideBody tr:nth-child(odd) td{background:#f8fafc}
+.sec.hd{border:0;background:none;margin:12px 0 6px}
+.sec.hd h3{border-radius:10px}
+.conf h3{background:linear-gradient(90deg,#fff7ed,#ffedd5);border-left:4px solid var(--orangeB);margin:0;padding:6px 10px;font-size:13px;border-radius:8px 8px 0 0;color:#9a3412}
+.conf .line{border:1px solid var(--line);border-top:0;padding:6px 10px;font-size:12.5px;display:flex;justify-content:space-between;gap:8px;background:#fff}
+.conf .line b{color:#1e1b4b}
+.conf .line.total{background:linear-gradient(90deg,#fef3c7,#fde68a);font-size:13.5px}
+.conf .line.total b{color:#78350f}
+.status{display:flex;justify-content:center;margin:4px 0 10px}
+.status span{background:#fef3c7;color:#92400e;border:1px solid #fcd34d;border-radius:999px;padding:3px 12px;font-size:12px;font-weight:700}
+.err{color:var(--bad);font-weight:700}
+.note{font-size:11.5px;color:var(--muted);margin-top:10px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:10px;padding:8px 10px}
+.sub-title{text-align:center;margin:12px 0 4px;font-weight:800;font-size:15px;color:#9a3412}
+footer{max-width:1540px;margin:0 auto;padding:0 22px 24px;font-size:11.5px;color:var(--muted);text-align:center}
+@media (max-width:1150px){main{grid-template-columns:1fr 1fr}.panel.inputs{grid-column:1/-1}}
+@media (max-width:720px){main{grid-template-columns:1fr;padding:12px}.two{grid-template-columns:1fr}.row{grid-template-columns:1.2fr 1fr}header{padding:14px}header h1{font-size:17px}.tile .val{font-size:19px}}
+@media print{
+  @page{size:landscape;margin:7mm}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{background:#fff;font-size:9.5px}
+  header .btns,footer{display:none}
+  header{padding:6px 10px;box-shadow:none}
+  .logo{width:30px;height:30px;font-size:15px}
+  main{grid-template-columns:1.25fr 1fr .9fr;gap:8px;padding:6px 0}
+  .panel{padding:6px;box-shadow:none}
+  .row{min-height:20px} input,select,textarea{min-height:18px;padding:1px 5px}
+  .tile .val{font-size:15px} .sec{margin-bottom:6px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="logo">S</div>
+    <div>
+      <h1>Soloh Travel Pay Package Calculator v1.1</h1>
+      <div class="sub"><span class="chip">18% Load on W2</span><span class="chip">No Onboarding Cost</span><span class="chip">18% Desired GP</span><span class="chip y">✎ Enter details in YELLOW cells</span></div>
+    </div>
+  </div>
+  <div class="btns">
+    <button id="reset" type="button">↺ Clear / Reset</button>
+    <button id="copy" type="button">Copy Offer Summary</button>
+    <button id="print" class="primary" type="button">🖨 Print / Save PDF</button>
+  </div>
+</header>
+
+<main>
+<!-- ================= INPUTS ================= -->
+<section class="panel inputs">
+  <h2><span class="ic">📝</span>Enter the below information</h2>
+  <div class="two">
+    <div>
+      <div class="sec c"><h3>Client Details</h3>
+        <div class="row"><label for="client">Client Name</label><div class="v"><input id="client" placeholder="<Enter Client Name>"></div></div>
+        <div class="row"><label for="msp">MSP/VMS Fee %</label><div class="v"><input id="msp" type="number" step="0.1" min="0" value="6"></div></div>
+        <div class="row"><label for="incr">Incremental Recruiting Costs</label><div class="v"><select id="incr" class="orange">
+          <option value="0">None</option><option value="500">Vivian Cost $500</option><option value="1200">Job Boards $1,200</option><option value="other">Other (enter)</option></select></div></div>
+        <div class="row" id="incrOtherRow" hidden><label for="incrOther">Other one-time cost ($)</label><div class="v"><input id="incrOther" type="number" min="0" step="1" value="0"></div></div>
+      </div>
+      <div class="sec c"><h3>Client Bill Details</h3>
+        <div class="row"><label for="bill">Bill Rate RT (Regular Time)</label><div class="v"><input id="bill" type="number" min="0" step="0.01" value="90"></div></div>
+        <div class="row"><span class="l">Bill Rate OT (Over Time)</span><div class="v"><span class="calc" id="billOTv"></span></div></div>
+      </div>
+      <div class="sec c"><h3>OT Policy (Client)</h3>
+        <div class="row"><label for="clientOT">Client bills OT? (Yes/No)</label><div class="v"><select id="clientOT"><option>No</option><option>Yes</option></select></div></div>
+        <div class="row"><label for="mult">OT Multiplier – Client Bill Rate</label><div class="v"><select id="mult">
+          <option value="1">No OT (straight)</option><option value="1.25">1.25 times RT</option><option value="1.3">1.3 times RT</option><option value="1.5">1.5 times RT</option></select></div></div>
+        <div class="row"><label for="trigger">When does Client start to pay OT</label><div class="v"><select id="trigger"><option value="40">OT after 40 hrs</option><option value="48">OT after 48 hrs</option></select></div></div>
+      </div>
+      <div class="sec c"><h3>Client Contract Details</h3>
+        <div class="row"><label for="weeks">Contract duration in weeks</label><div class="v"><input id="weeks" type="number" min="1" step="1" value="13"></div></div>
+        <div class="row"><label for="hrs">Expected hours per week</label><div class="v"><input id="hrs" type="number" min="0" step="1" value="36"></div></div>
+        <div class="row"><label for="shift">Expected hours per shift</label><div class="v"><input id="shift" type="number" min="0" step="1" value="12"></div></div>
+        <div class="row"><label for="orientBy">Who pays for orientation?</label><div class="v"><select id="orientBy"><option>Soloh</option><option>Client</option></select></div></div>
+        <div class="row"><label for="nbo">→ Non-billable orientation hours</label><div class="v"><input id="nbo" class="opt" type="number" min="0" step="1" value="12"></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="sec k"><h3>Candidate Pay Details</h3>
+        <div class="row"><label for="eng">Engagement Type (New or Extension?)</label><div class="v"><select id="eng"><option>New</option><option>Extension</option></select></div></div>
+        <div class="row"><label for="w2">W2 Pay Rate RT (Regular Time)</label><div class="v"><input id="w2" type="number" min="0" step="0.01" value="30"></div></div>
+        <div class="row"><label for="ot">OT Pay Rate (0 = 1.5 × RT)</label><div class="v"><input id="ot" type="number" min="0" step="0.01" value="0"></div></div>
+        <div class="row"><span class="l">W2 Pay Rate OT used</span><div class="v"><span class="calc" id="otUsedv"></span></div></div>
+        <div class="row"><label for="pd">Weekly Per Diem</label><div class="v"><input id="pd" type="number" min="0" step="1" value="1200"></div></div>
+      </div>
+      <div class="sec k"><h3>Bonus / Reimbursement (W2)</h3>
+        <div class="row"><label for="b1">Bonus / Reimbursement (total for contract)</label><div class="v"><input id="b1" class="opt bonus" type="number" min="0" step="1" value="0"></div></div>
+      </div>
+      <div class="sec n"><h3>Admin Use Only</h3>
+        <div class="row"><label for="load">Payroll Load on W2 % (W2 only)</label><div class="v"><input id="load" type="number" min="0" step="0.1" value="18"></div></div>
+        <div class="row"><label for="ob">Onboarding / Credentialing ($, New only)</label><div class="v"><input id="ob" type="number" min="0" step="1" value="0"></div></div>
+        <div class="row"><label for="gp">Desired GP / Net Margin %</label><div class="v"><input id="gp" type="number" min="0" step="0.1" value="18"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FINANCIAL SUMMARY ================= -->
+<section class="panel fs">
+  <h2><span class="ic">📊</span>Financial Summary</h2>
+  <div class="tiles">
+    <div class="tile t1"><div class="lbl">Project Net Margin</div><div class="val" id="kNet"></div></div>
+    <div class="tile" id="kPctTile"><div class="lbl">Net Margin %</div><div class="val" id="kPctBig"></div></div>
+  </div>
+  <div class="meter"><div class="bar"><div class="fill" id="kFill"></div><div class="tick" id="kTick"></div></div>
+    <div class="mk"><span>0%</span><span id="kTgt">Target 18%</span><span id="kMax">30%</span></div></div>
+  <div class="kpi">
+    <div>Hourly Net Margin</div><div id="kHourly"></div>
+    <div>Net Margin Percentage</div><div id="kPct"></div>
+    <div>Meets Desired GP?</div><div id="kMeets"></div>
+  </div>
+  <table class="fin">
+    <thead><tr><th style="text-align:left"></th><th>Weekly</th><th>Project</th></tr></thead>
+    <tbody id="finBody"></tbody>
+  </table>
+  <div class="sec t hd"><h3>🎯 Offer Guidance – to hit Desired GP</h3></div>
+  <table class="fin"><tbody id="guideBody"></tbody></table>
+</section>
+
+<!-- ================= CONFIRMATION ================= -->
+<section class="panel conf">
+  <h2><span class="ic">✅</span>Pay Package Confirmation</h2>
+  <h3>Client Details</h3>
+  <div class="line" id="cClient"></div>
+  <div class="sub-title">Submission Details</div>
+  <div class="status"><span>⏳ Pending client acceptance</span></div>
+  <h3>Client Contract Details</h3>
+  <div class="line"><span>Contract duration in weeks</span><b id="cWeeks"></b></div>
+  <div class="line"><span>Expected hours per week</span><b id="cHrs"></b></div>
+  <div class="line"><span>Expected hours per shift</span><b id="cShift"></b></div>
+  <h3 style="margin-top:8px">Hourly Pay Rate</h3>
+  <div class="line"><span>W2 Pay Rate RT (Regular Time)</span><b id="cRT"></b></div>
+  <div class="line"><span>W2 Pay Rate OT (Over Time)</span><b id="cOT"></b></div>
+  <h3 style="margin-top:8px">Weekly Pay Package (Taxable + Nontaxable)</h3>
+  <div class="line"><span>&gt; W2 Wage (RT+OT based on expected hrs)</span><b id="cW2"></b></div>
+  <div class="line"><span>&gt; Nontaxable Weekly PerDiem</span><b id="cPD"></b></div>
+  <div class="line total"><span><b>Total Weekly Gross Pay Package</b></span><b id="cGross"></b></div>
+  <h3 style="margin-top:8px">Additional Details (If any)</h3>
+  <div class="line" style="padding:4px"><textarea id="notes" class="opt" placeholder="Optional notes for this offer"></textarea></div>
+  <p class="note">Net Margin % = Net Margin ÷ Revenue. Load applies to W2 pay only (RT + OT + bonus/reimbursement), not per diem. Non-billable orientation hours are paid to the nurse but not billed. Nothing you type here is saved or sent anywhere – all math runs in your browser.</p>
+</section>
+</main>
+<footer>Soloh Travel Pay Package Calculator v1.1 (18-18). For internal recruiter use. Approved time off and one-time client fees are not modeled.</footer>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const num = id => { const v = parseFloat($(id).value); return isFinite(v) ? v : 0; };
+  const usd = (v, d=2) => {
+    const s = Math.abs(v).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+    return (v < -0.0049 ? '(' : '') + '$' + s + (v < -0.0049 ? ')' : '');
+  };
+  const pct = v => (v*100).toFixed(1) + '%';
+  const txt = (id, ph) => { const v = $(id).value.trim(); return v && !v.startsWith('<') ? v : ''; };
+  const DEFAULTS = {};
+  document.querySelectorAll('input,select,textarea').forEach(el => DEFAULTS[el.id] = el.value);
+
+  function calc(){
+    const msp = num('msp')/100, load = num('load')/100, gp = num('gp')/100;
+    const bill = num('bill'), w2 = num('w2'), pd = num('pd');
+    const weeks = Math.max(num('weeks'),1), hrs = num('hrs'), nbo = num('nbo');
+    const clientOT = $('clientOT').value === 'Yes';
+    const mult = clientOT ? parseFloat($('mult').value) : 1;
+    const trig = parseFloat($('trigger').value);
+    const billOT = bill * mult;
+    const otRate = num('ot') > 0 ? num('ot') : w2 * 1.5;
+    const bRT = clientOT ? Math.min(hrs, trig) : hrs, bOT = hrs - bRT;
+    const cRT = Math.min(hrs, 40), cOT = Math.max(hrs - 40, 0);
+    let bonus = 0; document.querySelectorAll('.bonus').forEach(b => bonus += (parseFloat(b.value)||0));
+    const incrSel = $('incr').value;
+    $('incrOtherRow').hidden = incrSel !== 'other';
+    const incr = (incrSel === 'other' ? num('incrOther') : parseFloat(incrSel)) + ($('eng').value === 'New' ? num('ob') : 0);
+    const orient = $('orientBy').value === 'Soloh' ? nbo * bill * (1 - msp) : 0;
+
+    const W = { revRT:bRT*bill, revOT:bOT*billOT, w2RT:cRT*w2, w2OT:cOT*otRate, bonus:bonus/weeks, pd:pd };
+    const P = {}; for (const k in W) P[k] = W[k]*weeks; P.bonus = bonus;
+    const rev = P.revRT + P.revOT, pay = P.w2RT + P.w2OT + P.bonus + P.pd;
+    const gm = rev - pay, mspP = rev*msp, loadP = (P.w2RT+P.w2OT+P.bonus)*load;
+    const nm = gm - mspP - loadP - incr - orient;
+    const nmPct = rev ? nm/rev : 0, hourly = (weeks*hrs) ? nm/(weeks*hrs) : 0;
+    const target = rev*gp, gap = nm - target;
+    const avail = rev*(1-msp-gp) - incr - orient;
+    const maxPD = (avail - (P.w2RT+P.w2OT+P.bonus)*(1+load))/weeks;
+    const denom = (1+load)*weeks*(cRT + (w2>0 ? cOT*otRate/w2 : cOT*1.5));
+    const maxW2 = denom ? (avail - P.pd - P.bonus*(1+load))/denom : 0;
+
+    $('billOTv').textContent = usd(billOT);
+    $('otUsedv').textContent = usd(otRate);
+    $('kHourly').innerHTML = `<span class="${hourly<0?'neg':''}">${usd(hourly)}</span>`;
+    $('kPct').innerHTML = `<span class="${nmPct<0?'neg':''}">${pct(nmPct)}</span>`;
+    $('kMeets').innerHTML = nmPct >= gp ? '<span class="pill yes">YES</span>' : '<span class="pill no">NO</span>';
+
+    const r = (l, w, p, cls='') => `<tr class="${cls}"><td class="${/band/.test(cls)?'':'b'}">${l}</td><td class="n ${w<0?'neg':''}">${w===null?'':usd(w,0)}</td><td class="n ${p<0?'neg':''}">${usd(p,0)}</td></tr>`;
+    const wk = x => x/weeks;
+    $('finBody').innerHTML =
+      r('+ Revenue (RT)', W.revRT, P.revRT,'rev') + r('+ Revenue (OT)', W.revOT, P.revOT,'rev') +
+      r('− W2 Hourly Comp (RT)', W.w2RT, P.w2RT,'cost') + r('− W2 Hourly Comp (OT)', W.w2OT, P.w2OT,'cost') +
+      r('− Bonus / Reimbursement (W2)', W.bonus, P.bonus,'cost') + r('− Per Diem: Non W2 Comp', W.pd, P.pd,'cost') +
+      r('= Gross Margin', wk(gm), gm, 'band') +
+      r('− MSP/VMS Fee', wk(mspP), mspP,'ded') + r(`− Payroll Load / Overhead (${(load*100).toFixed(0)}% on W2)`, wk(loadP), loadP,'ded') +
+      r('− Incremental Recruiting + Onboarding', wk(incr), incr,'ded') + r('− Orientation (non-billable hrs)', wk(orient), orient,'ded') +
+      r('= Net Margin', wk(nm), nm, nm<0?'band net bad':'band net');
+    const st = nmPct >= gp ? 'good' : (nmPct >= 0 ? 'warn' : 'bad');
+    $('kNet').textContent = usd(nm,0); $('kPctBig').textContent = pct(nmPct);
+    $('kPctTile').className = 'tile state-' + st;
+    const scale = Math.max(gp*1.6, 0.3), fillC = {good:'linear-gradient(90deg,#10b981,#059669)',warn:'linear-gradient(90deg,#fbbf24,#f59e0b)',bad:'linear-gradient(90deg,#fb7185,#e11d48)'}[st];
+    $('kFill').style.width = Math.max(0,Math.min(1,nmPct/scale))*100 + '%'; $('kFill').style.background = fillC;
+    $('kTick').style.left = Math.min(100,gp/scale*100) + '%';
+    $('kTgt').textContent = 'Target ' + (gp*100).toFixed(0) + '%'; $('kMax').textContent = (scale*100).toFixed(0) + '%';
+    const g = (l,v,sub) => `<tr><td class="b">${l}</td><td class="n ${v<0?'neg':''}"><b>${usd(v)}</b>${sub!==undefined?`<br><span class="${sub<0?'neg':''}" style="font-size:11px">change ${usd(sub)}</span>`:''}</td></tr>`;
+    $('guideBody').innerHTML = g('Max Weekly Per Diem (keep W2 rate)', maxPD, maxPD-pd) + g('Max W2 RT Rate (keep Per Diem)', maxW2, maxW2-w2) +
+      `<tr><td class="b">Target Net Margin $ at ${(gp*100).toFixed(0)}%</td><td class="n">${usd(target,0)}</td></tr>` +
+      `<tr><td class="b">Gap to target</td><td class="n ${gap<0?'neg':''}"><b>${usd(gap,0)}</b></td></tr>`;
+
+    const line = (id, label, val, req) => { $(id).innerHTML = val ? `${label}: ${val}` : (req ? `<span class="err">*** Error – Must Enter ${label}</span>` : `${label}: Not provided`); };
+    line('cClient','Client Name',txt('client'),true);
+    $('cWeeks').textContent = weeks; $('cHrs').textContent = hrs; $('cShift').textContent = num('shift');
+    $('cRT').textContent = usd(w2); $('cOT').textContent = usd(otRate);
+    $('cW2').textContent = usd(W.w2RT+W.w2OT); $('cPD').textContent = usd(pd); $('cGross').textContent = usd(W.w2RT+W.w2OT+pd);
+    window.__calc = {rev, gm, nm, nmPct, maxPD, maxW2, gross:W.w2RT+W.w2OT+pd};
+    return {weeks,hrs,w2,otRate,pd,gross:W.w2RT+W.w2OT+pd,nm,nmPct,gp};
+  }
+
+  document.addEventListener('input', calc); document.addEventListener('change', calc);
+  $('reset').onclick = () => { if (!confirm('Clear all entries and reset the calculator?')) return;
+    for (const id in DEFAULTS) { const el=$(id); if (el && !['load','ob','gp'].includes(id)) el.value = DEFAULTS[id]; }
+    ['client','notes'].forEach(id => $(id).value='');
+    calc(); };
+  $('print').onclick = () => window.print();
+  $('copy').onclick = async () => { const c = calc();
+    const s = `Pay Package – ${txt('client')||'Client'}\n` +
+      `${c.weeks} weeks, ${c.hrs} hrs/week\nW2 RT: ${usd(c.w2)}/hr | W2 OT: ${usd(c.otRate)}/hr\n` +
+      `Weekly per diem: ${usd(c.pd)}\nTotal weekly gross pay package: ${usd(c.gross)}`;
+    try { await navigator.clipboard.writeText(s); $('copy').textContent='Copied!'; } catch(e){ prompt('Copy this summary:', s); }
+    setTimeout(()=>$('copy').textContent='Copy Offer Summary',1500); };
+  calc();
+})();
+</script>
+</body>
+</html>
