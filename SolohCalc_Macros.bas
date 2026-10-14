@@ -15,6 +15,7 @@ Public Sub ResetCalculator()
     ws.Range("D8").Value = "None"
     ' Bill and pay
     ws.Range("D11").Value = 0
+    ws.Range("D12").Value = 0   ' Bill Rate OT (0 = auto)
     ws.Range("D13").Value = 0
     ws.Range("H6").Value = "New"
     ws.Range("H7").Value = 0
